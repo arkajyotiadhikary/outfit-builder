@@ -1,0 +1,25 @@
+.product-img {
+    margin: 1rem;
+    padding: 1rem;
+    width: 20rem;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+#head-top > img {
+    height: 3rem;
+}
+#head-mid > img {
+    height: 3rem;
+}
+#neck > img {
+    height: 3rem;
+}
+#body-up > img {
+    height: 20rem;
+}
+#body-down > img {
+    height: 20rem;
+}
+#foot > img {
+    height: 10rem;
+}
