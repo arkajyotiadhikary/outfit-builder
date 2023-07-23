@@ -4,7 +4,13 @@ const cheerio = require("cheerio");
 const getCloths = async (req, res) => {
     const search = req.body.data;
     try {
-        const data = await getAmazon(search);
+        const amazon_data = await getAmazon(search);
+        // const myntra_data = await getMyntra(search);
+
+        const data = {
+            amazon: amazon_data,
+            myntra: [],
+        };
         console.log(data);
         res.status(200).json(data);
     } catch (error) {
@@ -38,4 +44,28 @@ const getAmazon = async (cloth) => {
     }
 };
 
+const getMyntra = async (cloth) => {
+    let results = [];
+    const url = `https://www.myntra.com/${cloth}`;
+    try {
+        const res = await rp(url);
+        const $ = cheerio.load(res);
+        let count = 0;
+        console.log(res);
+        $("li[class='product-base']").each((i, el) => {
+            if (count >= 10) return;
+            count++;
+            let product_brand = $(el).find("h3[class='product-brand']").text();
+            let product_name = $(el).find("h4[class='product-product']").text();
+            let product_img = $(el)
+                .find("img[class='img-responsive']")
+                .attr("src");
+            const product = `${product_brand} ${product_name}`;
+            results.push({ product, product_img });
+        });
+        return results;
+    } catch (error) {
+        throw new Error("Error while scraping Myntra: " + error.message);
+    }
+};
 module.exports = getCloths;
