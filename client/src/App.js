@@ -1,12 +1,24 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 // components
 import DressSelector from "./components/DressSelector";
 
 function App() {
     const [preview, setPreview] = useState("");
+    const [search, setSearch] = useState("");
+
+    const handleChange = (e) => {
+        setSearch(e.target.value);
+        console.log(search);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post("http://localhost:8000/getcloths", { data: search });
+    };
 
     return (
         <div className="App">
@@ -18,7 +30,23 @@ function App() {
                         </h1>
                     </div>
                     <div className="search">
-                        <input className="form-control"></input>
+                        <div class="input-group">
+                            <div class="form-outline">
+                                <input
+                                    type="search"
+                                    id="form1"
+                                    onChange={handleChange}
+                                    class="form-control"
+                                />
+                            </div>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                onClick={handleSubmit}
+                            >
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div id="preview">
