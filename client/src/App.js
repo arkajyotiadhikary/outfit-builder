@@ -18,6 +18,7 @@ function App() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post("http://localhost:8000/getcloths", { data: search });
+        setSearch("");
     };
 
     return (
